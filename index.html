@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>...</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background: radial-gradient(circle at top, #1a1a2e, #000);
+  color:white;
+  overflow:hidden;
+}
+
+.slide{
+  display:none;
+  height:100vh;
+  width:100vw;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  text-align:center;
+  padding:25px;
+}
+
+.slide.active{display:flex;}
+
+h1{
+  font-size:2.1em;
+  margin:15px 0;
+  letter-spacing:1px;
+}
+
+p{
+  font-size:1.1em;
+  opacity:.85;
+  max-width:360px;
+  line-height:1.6;
+}
+
+input{
+  margin-top:20px;
+  padding:14px;
+  width:260px;
+  border-radius:30px;
+  border:none;
+  outline:none;
+  text-align:center;
+}
+
+button{
+  margin-top:25px;
+  padding:12px 44px;
+  border-radius:30px;
+  border:none;
+  background:#e94560;
+  color:white;
+  font-size:15px;
+  cursor:pointer;
+}
+
+.next{
+  position:absolute;
+  bottom:35px;
+  opacity:.7;
+}
+
+.fade{
+  animation:fade 1.8s ease;
+}
+
+@keyframes fade{
+  from{opacity:0; transform:translateY(25px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* ENDING CARD */
+.card{
+  position:relative;
+  z-index:2;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(10px);
+  border-radius:20px;
+  padding:28px 26px;
+  max-width:340px;
+  box-shadow:0 20px 40px rgba(0,0,0,.4);
+}
+
+.card h2{
+  font-size:1.6em;
+  margin-bottom:12px;
+}
+
+.card p{
+  font-size:1em;
+  opacity:.9;
+}
+
+.card .ig{
+  margin-top:18px;
+  font-size:.95em;
+  opacity:.75;
+}
+
+canvas{
+  position:absolute;
+  top:0;
+  left:0;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SLIDE 1 -->
+<div class="slide active fade" id="s1">
+  <h1>🔒 Tunggu Sebentar</h1>
+  <p>Tidak semua orang bisa membuka ini awokawok</p>
+  <input type="password" id="pw" placeholder="clue nya sering di ucap">
+  <button onclick="check()">Masuk</button>
+</div>
+
+<!-- SLIDE 2 -->
+<div class="slide fade" id="s2">
+  <p>Menarik ya…</p>
+  <h1>Kamu tetap memilih lanjut</h1>
+  <button class="next" onclick="next()">lanjut</button>
+</div>
+
+<!-- SLIDE 3 -->
+<div class="slide fade" id="s3">
+  <p>Kebanyakan orang berhenti di tengah</p>
+  <h1>Tapi kamu masih di sini</h1>
+  <button class="next" onclick="next()">teruskan</button>
+</div>
+
+<!-- SLIDE 4 -->
+<div class="slide fade" id="s4">
+  <p>Pernah merasa</p>
+  <h1>Kamu harus kuat sendirian?</h1>
+  <button class="next" onclick="next()">...</button>
+</div>
+
+<!-- SLIDE 5 -->
+<div class="slide fade" id="s5">
+  <p>Ada hal yang jarang diucapkan</p>
+  <h1>Tentang kamu</h1>
+  <button class="next" onclick="next()">lanjut</button>
+</div>
+
+<!-- SLIDE 6 -->
+<div class="slide fade" id="s6">
+  <p>Kalau kamu sampai sejauh ini</p>
+  <h1>Itu bukan kebetulan</h1>
+  <button class="next" onclick="next()">lihat ini</button>
+</div>
+
+<!-- SLIDE 7 -->
+<div class="slide fade" id="s7">
+  <p>Dan aku cuma mau bilang..</p>
+  <h1>Tidak ada yang menyayangimu selain akuu</h1>
+  <p>Mungkin ada tapi aku gak tauu, <br> intinya aku tetep sayang mbi koee(gilang). LOPYUUU DAHH</p>
+  <button class="next" onclick="next()">akhir</button>
+</div>
+
+<!-- SLIDE 8 ENDING -->
+<div class="slide fade" id="s8">
+  <canvas id="fw"></canvas>
+
+  <div class="card fade">
+    <h2>Untuk Kamu ✨</h2>
+    <p>
+      minum kopi pakai gula.<br>
+      manisnya biasa saja.<br><br>
+      yang luar biasa tuh,<br>
+Punya kamu… tapi nggak semua orang bisa 😏. 
+    </p>
+    <div class="ig">tag saya— @awn.imnev</div>
+  </div>
+</div>
+
+<script>
+let i=1;
+
+function check(){
+  let pw=document.getElementById("pw").value.toLowerCase();
+  if(pw==="semangat"){
+    move(1,2); i=2;
+  }else alert("Belum saatnya.");
+}
+
+function next(){
+  move(i,i+1); i++;
+  if(i===8) fire();
+}
+
+function move(a,b){
+  document.getElementById("s"+a).classList.remove("active");
+  document.getElementById("s"+b).classList.add("active");
+}
+
+/* FIREWORK SOFT */
+function fire(){
+  const c=document.getElementById("fw");
+  const x=c.getContext("2d");
+  c.width=innerWidth;
+  c.height=innerHeight;
+  let p=[];
+
+  function boom(){
+    let cx=Math.random()*c.width;
+    let cy=Math.random()*c.height/2;
+    let col=["#ffbe0b","#ff006e","#8338ec","#3a86ff"];
+    for(let i=0;i<70;i++){
+      p.push({
+        x:cx,y:cy,
+        a:Math.random()*Math.PI*2,
+        s:Math.random()*3+1,
+        l:100,
+        c:col[Math.floor(Math.random()*col.length)]
+      });
+    }
+  }
+
+  function draw(){
+    x.fillStyle="rgba(0,0,0,.25)";
+    x.fillRect(0,0,c.width,c.height);
+    p.forEach((e,n)=>{
+      e.x+=Math.cos(e.a)*e.s;
+      e.y+=Math.sin(e.a)*e.s;
+      e.l--;
+      x.beginPath();
+      x.arc(e.x,e.y,2,0,Math.PI*2);
+      x.fillStyle=e.c;
+      x.fill();
+      if(e.l<=0)p.splice(n,1);
+    });
+    requestAnimationFrame(draw);
+  }
+
+  setInterval(boom,1000);
+  draw();
+}
+</script>
+
+</body>
+</html>
